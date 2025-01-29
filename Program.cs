@@ -1,34 +1,15 @@
-var builder = WebApplication.CreateBuilder(args);
+using JoVisionBackendTasks.Task44;
+using JoVisionBackendTasks.Task45;
 
-// Add services to the container.
+var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+//// Task44
+//app.MapGet("/", GreetingControllerTask44.Greeting);
 
-app.UseHttpsRedirection();
-
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-});
+//// Task45
+app.MapGet("/greet", GreetingControllerTask45.Greeting);
+app.MapGet("/birthdate", BirthDateControllerTask45.BirthDate);
 
 app.Run();
-
-internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
