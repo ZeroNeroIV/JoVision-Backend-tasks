@@ -1,8 +1,10 @@
-﻿namespace JoVisionBackendTasks.Task46
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace JoVisionBackendTasks.Task46
 {
-    public static class GreetingControllerTask46
+    public class GreetingControllerTask46 : Controller
     {
-        public static async Task<IResult> Greeting(HttpContext context)
+        public async Task<IResult> Greeting(HttpContext context)
         {
             var form = await context.Request.ReadFormAsync();
             string name = form["name"]

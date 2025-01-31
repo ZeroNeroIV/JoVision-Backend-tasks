@@ -1,8 +1,10 @@
-﻿namespace JoVisionBackendTasks.Task46
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace JoVisionBackendTasks.Task46
 {
-    public static class BirthDateControllerTask46
+    public class BirthDateControllerTask46 : Controller
     {
-        public static async Task<IResult> BirthDate(HttpContext context)
+        public async Task<IResult> BirthDate(HttpContext context)
         {
             var form = await context.Request.ReadFormAsync();
 

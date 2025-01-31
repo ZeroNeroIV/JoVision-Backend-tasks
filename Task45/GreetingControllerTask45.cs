@@ -1,8 +1,10 @@
-﻿namespace JoVisionBackendTasks.Task45
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace JoVisionBackendTasks.Task45
 {
-    public static class GreetingControllerTask45
+    public class GreetingControllerTask45 : Controller
     {
-        public static IResult Greeting(HttpContext context, string? name)
+        public IResult Greeting(HttpContext context, string? name)
         {
             string greeting = "Hello ";
             greeting += string.IsNullOrWhiteSpace(name) ? "anonymous" : name.Trim('\"').Trim('\'').Trim();

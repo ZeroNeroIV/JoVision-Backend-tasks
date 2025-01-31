@@ -1,8 +1,10 @@
-﻿namespace JoVisionBackendTasks.Task45
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace JoVisionBackendTasks.Task45
 {
-    public static class BirthDateControllerTask45
+    public class BirthDateControllerTask45 : Controller
     {
-        public static IResult BirthDate(
+        public IResult BirthDate(
             HttpContext context,
             string? name,
             int? years,
@@ -28,7 +30,7 @@
             return Results.Ok(greeting);
         }
 
-        private static int CalculateAge(DateTime date)
+        private int CalculateAge(DateTime date)
         {
             DateTime curr = DateTime.UtcNow;
             int age = curr.Year - date.Year;

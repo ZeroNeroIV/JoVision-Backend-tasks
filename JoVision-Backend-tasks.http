@@ -1,6 +1,0 @@
-@JoVision_Backend_tasks_HostAddress = http://localhost:5038
-
-GET {{JoVision_Backend_tasks_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
