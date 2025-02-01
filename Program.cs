@@ -58,4 +58,21 @@ IResult HandleRetrieve(HttpContext context, string? fileName, string? fileOwner)
 app.MapPost("/update", HandleUpdate);
 app.MapGet("/retrieve", HandleRetrieve);
 
+//// Task49
+var task49Filter = new FilterControllerTask49();
+var task49TransferOwnership = new TransferOwnershipControllerTask49();
+
+IResult HandleFilter(HttpContext context)
+{
+    return task49Filter.Filter(context, uploadDirectory).Result;
+}
+
+IResult HandleTransferOwnership(HttpContext context, string? oldOwner, string? newOwner)
+{
+    return task49TransferOwnership.TransferOwnership(context, uploadDirectory, oldOwner, newOwner);
+}
+
+app.MapPost("/filter", HandleFilter);
+app.MapGet("/transfer-ownership", HandleTransferOwnership);
+
 app.Run();
