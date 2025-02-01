@@ -7,8 +7,4 @@
     <RootNamespace>JoVisionBackendTasks</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Task47Uploads\" />
-  </ItemGroup>
-
 </Project>
