@@ -1,7 +1,4 @@
-using JoVisionBackendTasks.Task44;
-using JoVisionBackendTasks.Task45;
-using JoVisionBackendTasks.Task46;
-using JoVisionBackendTasks.Task47;
+using JoVisionBackendTasks.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,14 +29,33 @@ var task47Delete = new DeleteControllerTask47();
 string uploadDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Task47Uploads");
 if (!Directory.Exists(uploadDirectory)) Directory.CreateDirectory(uploadDirectory);
 
-IResult HandleCreate(HttpContext context) {
+IResult HandleCreate(HttpContext context)
+{
     return task47Create.Create(context, uploadDirectory).Result;
 }
 
-IResult HandleDelete(HttpContext context, string? fileName, string? fileOwner) {
+IResult HandleDelete(HttpContext context, string? fileName, string? fileOwner)
+{
     return task47Delete.Delete(context, uploadDirectory, fileName, fileOwner);
 }
+
 app.MapPost("/create", HandleCreate);
 app.MapGet("/delete", HandleDelete);
+
+//// Task48
+var task48Update = new UpdateControllerTask48();
+var task48Retrieve = new RetreiveControllerTask48();
+IResult HandleUpdate(HttpContext context)
+{
+    return task48Update.Update(context, uploadDirectory).Result;
+}
+
+IResult HandleRetrieve(HttpContext context, string? fileName, string? fileOwner)
+{
+    return task48Retrieve.Retrieve(context, uploadDirectory, fileName, fileOwner);
+}
+
+app.MapPost("/update", HandleUpdate);
+app.MapGet("/retrieve", HandleRetrieve);
 
 app.Run();

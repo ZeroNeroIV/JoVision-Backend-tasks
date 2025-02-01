@@ -1,15 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace JoVisionBackendTasks.Task47
+﻿namespace JoVisionBackendTasks.Services
 {
-    public class DeleteControllerTask47 : Controller
+    public class DeleteServiceTask47
     {
-        public IResult Delete(
-            HttpContext context,
-            string uploadDirectory,
-            string? fileName,
-            string? fileOwner
-        )
+        public IResult Delete(string uploadDirectory, string? fileName, string? fileOwner)
         {
             try
             {
@@ -23,23 +16,24 @@ namespace JoVisionBackendTasks.Task47
 
                 string filePath = Path.Combine(uploadDirectory, fileName);
 
-                if (!System.IO.File.Exists(filePath))
+                if (!File.Exists(filePath))
                     return Results.BadRequest("File does not exist.");
 
                 string metadataPath = Path.ChangeExtension(filePath, ".json");
 
                 var metadata = System.Text.Json
                     .JsonSerializer
-                    .Deserialize<Dictionary<string, Object>>(
-                        System.IO.File
+                    .Deserialize<MetadataModel>(
+                        File
                         .ReadAllText(metadataPath)
                     ) ??
                     throw new Exception("Metadata not found while file exists.");
-                if (!fileOwner.Equals(metadata["Owner"].ToString(), StringComparison.OrdinalIgnoreCase))
+
+                if (!fileOwner.Equals(metadata.Owner, StringComparison.OrdinalIgnoreCase))
                     return Results.Unauthorized();
 
-                System.IO.File.Delete(filePath);
-                System.IO.File.Delete(metadataPath);
+                File.Delete(filePath);
+                File.Delete(metadataPath);
 
                 return Results.Ok("Deleted!");
             }

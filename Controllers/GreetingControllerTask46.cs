@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using JoVisionBackendTasks.Services;
+using Microsoft.AspNetCore.Mvc;
 
-namespace JoVisionBackendTasks.Task46
+namespace JoVisionBackendTasks.Controllers
 {
     public class GreetingControllerTask46 : Controller
     {
+        GreetingServiceTask46 serviceTask46 = new();
         public async Task<IResult> Greeting(HttpContext context)
         {
             var form = await context.Request.ReadFormAsync();
@@ -14,8 +16,8 @@ namespace JoVisionBackendTasks.Task46
                     '\"',
                     ' '
                 ]) ?? "anonymous";
-            
-            string greeting = $"Hello {name}";
+
+            string greeting = serviceTask46.Greeting(name);
             return Results.Ok(greeting);
         }
     }

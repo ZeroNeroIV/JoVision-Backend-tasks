@@ -1,16 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace JoVisionBackendTasks.Task47 {
-    public class CreateControllerTask47 : Controller {
-        public async Task<IResult> Create(
-            HttpContext context, 
-            string uploadDirectory
-            ) {
-            try {
-                var form = await context.Request.ReadFormAsync();
-                var owner = form["owner"].ToString();
-                var file = form.Files["image"];
-
+﻿namespace JoVisionBackendTasks.Services
+{
+    public class CreateServiceTask47
+    {
+        public async Task<IResult> Create(string uploadDirectory, string? owner, IFormFile? file)
+        {
+            try
+            {
                 if (file == null || string.IsNullOrEmpty(owner))
                     return Results.BadRequest("Invalid or missing data");
 
@@ -20,21 +15,22 @@ namespace JoVisionBackendTasks.Task47 {
                 string filePath = Path.Combine(uploadDirectory, file.FileName);
                 string metadataPath = Path.ChangeExtension(filePath, ".json");
 
-                if (System.IO.File.Exists(filePath))
+                if (File.Exists(filePath))
                     return Results.BadRequest("File already exists.");
 
-                using (var stream = new FileStream(filePath, FileMode.Create)) {
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
                     await file.CopyToAsync(stream);
                 }
 
-                var metadata = new
+                var metadata = new MetadataModel
                 {
                     Owner = owner,
-                    CreateAt = DateTime.UtcNow,
-                    LastModifiedAt = DateTime.UtcNow,
+                    CreatedAt = DateTime.Now,
+                    LastModifiedAt = DateTime.Now,
                 };
 
-                await System.IO.File
+                await File
                     .WriteAllTextAsync(
                         metadataPath,
                         System.Text.Json
@@ -42,7 +38,9 @@ namespace JoVisionBackendTasks.Task47 {
                         .Serialize(metadata));
 
                 return Results.Created();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 return Results.InternalServerError(ex.Message);
             }
         }
